@@ -1,10 +1,6 @@
-import React from "react";
-import { useContext } from 'react';
-import { ThemeContext } from '../../contexts/ThemeContext'
+import {withTheme} from '../hoc/withTheme';
 
-const Header = ({layoutVersion }) => {
-
-  const { darkTheme, toggleTheme } = useContext(ThemeContext);
+const Header = ({ layoutVersion, darkTheme, toggleTheme }) => {
 
   return (
     <header>
@@ -34,4 +30,4 @@ const Header = ({layoutVersion }) => {
   );
 };
 
-export default Header;
+export default withTheme(Header);
