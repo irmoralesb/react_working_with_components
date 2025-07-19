@@ -2,7 +2,7 @@
   "todos": [
     {
       "todoText": "Clean car",
-      "completed": false,
+      "completed": true,
       "important": false,
       "id": 11
     },
