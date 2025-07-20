@@ -18,7 +18,7 @@ const Inner = ({ children }) => {
   );
 };
 
-const Layout = (props) => {/*  */
+const Layout = (props) => {
   return (
     <ThemeProvider>
       <Inner {...props} />
