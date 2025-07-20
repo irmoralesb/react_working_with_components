@@ -1,4 +1,7 @@
+import next from "next";
 import ErrorBoundary from "../common/ErrorBoundary";
+import ToDoItemText from "./ToDoItemText";
+import { memo } from "react";
 
 const Inner = ({
   todoItem,
@@ -19,12 +22,7 @@ const Inner = ({
           return handleToggleCompleted(todoItem.id);
         }}
       >
-        {todoItem.important ? (
-          <span className="badge warning-bg">
-            <i className="fa fa-exclamation-circle"></i>
-          </span>
-        ) : null}
-        {todoItem.todoText.slice(0,60)}
+        <ToDoItemText important={todoItem.important} todoText={todoItem.todoText}/>
       </div>
 
       {idUpdating === todoItem.id ? (
@@ -70,7 +68,7 @@ const Inner = ({
 
 
 const TodoErrorBoundary = (props) => {
-  return(
+  return (
     <div className="single-task text-bg-danger">
       <b>Error processing ToDo: {JSON.stringify(props)}</b>
     </div>
@@ -78,11 +76,20 @@ const TodoErrorBoundary = (props) => {
 }
 
 const ToDo = (props) => {
-  return(
-    <ErrorBoundary errorUI={<TodoErrorBoundary {...props}/>}>
-      <Inner {...props}/>
+  return (
+    <ErrorBoundary errorUI={<TodoErrorBoundary {...props} />}>
+      <Inner {...props} />
     </ErrorBoundary>
   )
 }
 
-export default ToDo;
+//When passing function or extra logic is needed we can use the second parameter of memo
+// which is a function with the old and new props
+export default memo(ToDo, (prevProps, nextProps) => {
+  return (
+    prevProps.todoItem.completed != nextProps.todoItem.completed ||
+    prevProps.todoItem.important != nextProps.todoItem.important ||
+    prevProps.idUpdating === prevProps.todoItem.idUpdating || //Detecting the id the spin has
+    nextProps.idUpdating === nextProps.todoItem.idUpdating
+  );
+});
