@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useDeferredValue } from "react";
 import ToDoListWithToolbar from "./components/todo/ToDoListWithToolbar";
 import { TodosDataProvider } from "./contexts/ToDosDataContext";
 import ToDoManager from "./components/todo/ToDoManager";
@@ -8,7 +8,7 @@ const App = () => {
   const [displayStatus, setDisplayStatus] = useState("all"); // all, pending, completed
   const [important, setImportant] = useState(false);
   const [searchText, setSearchText] = useState("");
-
+  const searchTextDeferred = useDeferredValue(searchText);
 
   return (
     <TodosDataProvider>
@@ -20,7 +20,7 @@ const App = () => {
         >
           <ToDoManager
             displayStatus={displayStatus} important={important}
-            searchText={searchText}
+            searchText={searchTextDeferred}
           />
         </ToDoListWithToolbar>
       </Layout>
